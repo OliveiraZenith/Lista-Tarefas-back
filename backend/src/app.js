@@ -12,6 +12,17 @@ app.get("/", (_req, res) => {
   res.json({ message: "API da lista de tarefas funcionando" });
 });
 
+app.get("/v1", (_req, res) => {
+  const chamada_em = new Date().toLocaleString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+  });
+
+  res.json({
+    message: "Api v1 respondendo no container docker...",
+    chamada_em,
+  });
+});
+
 app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
