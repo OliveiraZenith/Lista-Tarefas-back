@@ -20,6 +20,9 @@ run npm install --omit=dev
 # isso inclui, por exemplo, o server.js
 copy . .
 
+# gera o prisma client dentro da imagem para evitar erro de inicialização
+run npx prisma generate
+
 # define uma variável de ambiente padrão chamada PORT
 # neste projeto, a aplicação usará a porta 5000 por padrão
 env PORT=5000
