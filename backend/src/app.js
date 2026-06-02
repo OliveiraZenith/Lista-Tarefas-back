@@ -5,7 +5,39 @@ import taskRoutes from "./routes/task.routes.js";
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  /^https:\/\/.*\.vercel\.app$/,
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://localhost:8080",
+].filter(Boolean);
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    const isAllowed = allowedOrigins.some((allowedOrigin) => {
+      if (allowedOrigin instanceof RegExp) {
+        return allowedOrigin.test(origin);
+      }
+
+      return allowedOrigin === origin;
+    });
+
+    if (isAllowed) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error("Origem não permitida pelo CORS"));
+  },
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (_req, res) => {
